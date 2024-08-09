@@ -1,0 +1,135 @@
+<div class="bg-white flex justify-center h-screen pt-4">
+    <div class="w-full max-w-3xl mx-auto">
+        <div class="flex justify-between">
+            <div class="flex justify-center lg:justify-start">
+                <div class="mb-4 flex gap-2">
+                    <img src="/assets/simbolo-medicina.png" alt="Medicar Logo" class="size-10 mb-2" />
+                    <h1 class="text-2xl font-bold text-gray-700 mt-2">Medicar</h1>
+                </div>
+            </div>
+            <div class="flex items-center gap-10">
+                <p class="text-sm text-zinc-300">{{userNameLoggedIn}}</p>
+                <a href="#" class="text-xs text-teal-400">Desconectar</a>
+            </div>
+        </div>
+        <div class="h-96 shadow-lg rounded-lg border border-gray-200">
+            <div class="flex justify-between py-4 px-4">
+                <h2>Consulta Clínica</h2>
+                <button (click)="openModal()"
+                 class="bg-teal-400 text-xs text-white py-1 pr-4 pl-2 rounded-md flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                    Nova Consulta
+                </button>
+            </div>
+
+            <!-- Table -->
+            <div class="relative overflow-x-auto shadow-md">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+                    <thead class="text-xs text-zinc-400 uppercase bg-white">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                ESPECIALIDADE
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                PROFISSIONAL
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                DATA
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                HORA
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let schedule of schedules; let i = index" class="bg-gray-100">
+                            <td class="px-6 py-1 text-xs text-gray-500 whitespace-nowrap">
+                                {{schedule.medico.especialidade.nome}}
+                            </td>
+                            <td class="px-6 py-1 text-xs text-gray-500 whitespace-nowrap">
+                                {{schedule.medico.nome}}
+                            </td>
+                            <td class="px-6 py-1 text-xs text-gray-500 whitespace-nowrap">
+                                {{schedule.dia}}
+                            </td>
+                            <td class="px-6 py-1 text-xs text-gray-500 whitespace-nowrap">
+                                {{schedule.horario}}
+                            </td>
+                            <td class="px-6 py-1 text-xs text-gray-500 whitespace-nowrap">
+                                <a (click)="removeSchedule(i)" class="text-xs text-teal-400 flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="4" stroke="#2dd4bf" class="size-2.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                    </svg>
+                                    Desmarcar</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal -->
+<div *ngIf="isModalOpen" id="modal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+    <div class="relative p-4 w-full max-w-xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white shadow p-8">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between pb-4">
+                <h3 class="text-sm font-semibold text-gray-900">
+                    Nova Consulta
+                </h3>
+            </div>
+            <!-- Modal body -->
+            <div class="pb-6 space-y-4">
+                <form action="">
+                    <div class="mb-4">
+                        <select (change)="onChange($event)" class="text-black mt-1 block w-full py-1 px-3 border border-gray-300 bg-white rounded-md text-xs focus:outline-none focus:ring-teal-300 focus:border-teal-400" name="specialty" id="specialty">
+                            <option selected>Especialidade</option>
+                            <option *ngFor="let specialty of specialties" [value]="specialty.nome">{{specialty.nome}}</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <select (change)="onChange($event)" [disabled]="!form.specialty" class="text-black mt-1 block w-full py-1 px-3 border border-gray-300 bg-white rounded-md text-xs focus:outline-none focus:ring-teal-300 focus:border-teal-400" name="doctor" id="doctor">
+                            <option selected>Médico</option>
+                            <option *ngFor="let doctor of filteredDoctors" [value]="doctor.nome">{{doctor.nome}}</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <select (change)="onChange($event)" [disabled]="!form.doctor" class="text-black mt-1 block w-full py-1 px-3 border border-gray-300 bg-white rounded-md text-xs focus:outline-none focus:ring-teal-300 focus:border-teal-400" name="dateId" id="dateId">
+                            <option selected>Data</option>
+                            <option *ngFor="let date of filteredDates" [value]="date.id">{{date.dia}}</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <select (change)="onChange($event)" [disabled]="!form.dateId" class="text-black mt-1 block w-full py-1 px-3 border border-gray-300 bg-white rounded-md text-xs focus:outline-none focus:ring-teal-300 focus:border-teal-400" name="hour" id="hour">
+                            <option selected>Hora</option>
+                            <option *ngFor="let hour of filteredHours" [value]="hour">{{hour}}</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <!-- Modal footer -->
+            <div class="flex items-center gap-4 border-gray-200 rounded-b">
+                <button (click)="closeModal()"
+                    class="text-teal-500 hover:bg-teal-100 font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline w-full text-sm"
+                    type="button">
+                    Cancelar
+                </button>
+                <button (click)="submit()"
+                    class="bg-teal-500 hover:bg-teal-400 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline w-full text-sm"
+                    type="submit">
+                    Confirmar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,27 +1,30 @@
-# TestIntmed
+# Desafio Intmed - Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.8.
+Este é um repositório criado para armazenar o desafio técnico do processo seletivo da Intmed. Foi desenvolvida uma aplicação (Frontend) onde é possível acompanhar e agendar consultas médicas. O projeto foi desenvolvido em Angular e integrada com a seguinte 
+[API](https://github.com/Intmed-Software/desafio-mock-server).
 
-## Development server
+## Começando
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste.
 
-## Code scaffolding
+## Instalação
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Após clonar o repositório, é preciso que você instale os pacotes necessários para a aplicação. Para isso, basta rodar o seguinte comando no seu terminal:
 
-## Build
+```bash
+$ npm install
+```
+Após a instalação dos pacotes ser concluída, inicie a aplicação com o seguinte comando:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+ $ npm run start
+```
+Com isso, a aplicação estará rodando na porta 4200.
 
-## Running unit tests
+## Observações
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+#### Pagina de login
++ A api disponibilizada para a integração desta aplicação, possui regras de retorno e  validações (regras podem ser visualizadas através da documentação da [API](https://github.com/Intmed-Software/desafio-mock-server).
+    - no campo `Email ou Login` entre com `intmed`.
+    - no campo `Senha` entre com `challenge`.
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
